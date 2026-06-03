@@ -1,5 +1,6 @@
 const puzzle = document.getElementById("puzzle");
 const mensagem = document.getElementById("mensagem");
+const mensagemFinal = document.getElementById("mensagemFinal");
 
 // ordem correta
 const ordemCorreta = [0, 1, 2, 3, 4, 5];
@@ -76,6 +77,8 @@ function verificar() {
 
         ativarBotaoTalvez();
 
+        puzzle.classList.add("pulsando");
+
     }
 
 }
@@ -126,11 +129,18 @@ function ativarBotaoTalvez() {
 
 }
 
-// botão sim
+// botão SIM
 document.addEventListener("click", function(event){
 
     if(event.target.id !== "sim") return;
 
+    // esconde os botões
+    document.querySelector(".botoes").style.display = "none";
+
+    // mostra mensagem final
+    mensagemFinal.classList.remove("oculto");
+
+    // chuva de corações
     for(let i = 0; i < 100; i++){
 
         const coracao =
@@ -158,12 +168,6 @@ document.addEventListener("click", function(event){
         }, 6000);
 
     }
-
-    setTimeout(() => {
-
-        alert("❤️ Eu sabia que você diria SIM! ❤️");
-
-    }, 300);
 
 });
 
