@@ -1,61 +1,67 @@
 const puzzle = document.getElementById("puzzle");
-
 const mensagem = document.getElementById("mensagem");
 
-let pecas = [0,1,2,3,4,5];
+// posições corretas
+const ordemCorreta = [0, 1, 2, 3, 4, 5];
 
-pecas.sort(() => Math.random() - 0.5);
+// embaralha as peças
+let pecas = [...ordemCorreta].sort(() => Math.random() - 0.5);
+
+// evita começar resolvido
+while (pecas.every((v, i) => v === i)) {
+    pecas.sort(() => Math.random() - 0.5);
+}
 
 let selecionada = null;
 
-function renderizar(){
+// cria o quebra-cabeça
+function renderizar() {
 
     puzzle.innerHTML = "";
 
-    puzzle.style.display = "grid";
+    pecas.forEach((valor, index) => {
 
-    puzzle.style.gridTemplateColumns = "repeat(3,120px)";
-    puzzle.style.gridTemplateRows = "repeat(2,120px)";
-    puzzle.style.gap = "2px";
+        const peca = document.createElement("div");
 
-    pecas.forEach((valor,index)=>{
+        peca.classList.add("peca");
 
-        const div = document.createElement("div");
+        // tamanho das peças
+        peca.style.width = "120px";
+        peca.style.height = "120px";
 
-        div.className = "peca";
+        // imagem
+        peca.style.backgroundImage = "url('foto.png')";
 
-        div.style.width = "120px";
-        div.style.height = "120px";
+        // tamanho total da imagem
+        peca.style.backgroundSize = "360px 240px";
 
-        div.style.backgroundImage = "url('foto.png')";
-
-        div.style.backgroundSize = "360px 240px";
-
+        // posição de cada pedaço
         const x = -(valor % 3) * 120;
-        const y = -(Math.floor(valor / 3) * 120);
+        const y = -Math.floor(valor / 3) * 120;
 
-        div.style.backgroundPosition = `${x}px ${y}px`;
+        peca.style.backgroundPosition = `${x}px ${y}px`;
 
-        div.onclick = () => trocar(index);
+        peca.addEventListener("click", () => trocar(index));
 
-        puzzle.appendChild(div);
+        puzzle.appendChild(peca);
 
     });
 
 }
 
-function trocar(index){
+// troca duas peças
+function trocar(indice) {
 
-    if(selecionada === null){
+    if (selecionada === null) {
 
-        selecionada = index;
+        selecionada = indice;
 
         return;
 
     }
 
-    [pecas[selecionada], pecas[index]] =
-    [pecas[index], pecas[selecionada]];
+    [pecas[selecionada], pecas[indice]] =
+    [pecas[indice], pecas[selecionada]];
 
     selecionada = null;
 
@@ -65,20 +71,20 @@ function trocar(index){
 
 }
 
-function verificar(){
+// verifica se terminou
+function verificar() {
 
-    for(let i=0;i<6;i++){
+    const completo = pecas.every(
+        (valor, indice) => valor === indice
+    );
 
-        if(pecas[i] !== i){
+    if (completo) {
 
-            return;
-
-        }
+        mensagem.classList.remove("oculto");
 
     }
 
-    mensagem.classList.remove("oculto");
-
 }
 
+// inicia
 renderizar();
