@@ -1,19 +1,16 @@
-```javascript
 const puzzle = document.getElementById("puzzle");
 const mensagem = document.getElementById("mensagem");
 const mensagemFinal = document.getElementById("mensagemFinal");
 
-// 9 peças (3x3)
-const ordemCorreta = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+// 6 peças (3x2)
+const ordemCorreta = [0, 1, 2, 3, 4, 5];
 
 let pecas = [...ordemCorreta];
 
-// embaralha as peças
+// embaralha
 function embaralhar() {
-
     pecas.sort(() => Math.random() - 0.5);
 
-    // evita começar resolvido
     while (pecas.every((v, i) => v === i)) {
         pecas.sort(() => Math.random() - 0.5);
     }
@@ -21,7 +18,6 @@ function embaralhar() {
 
 let selecionada = null;
 
-// renderiza o quebra-cabeça
 function renderizar() {
 
     puzzle.innerHTML = "";
@@ -33,7 +29,7 @@ function renderizar() {
         peca.className = "peca";
 
         peca.style.backgroundImage = "url('foto.png')";
-        peca.style.backgroundSize = "360px 360px";
+        peca.style.backgroundSize = "360px 240px";
 
         const coluna = valor % 3;
         const linha = Math.floor(valor / 3);
@@ -51,14 +47,11 @@ function renderizar() {
     });
 }
 
-// troca duas peças
 function trocar(indice) {
 
     if (selecionada === null) {
-
         selecionada = indice;
         renderizar();
-
         return;
     }
 
@@ -72,7 +65,6 @@ function trocar(indice) {
     verificar();
 }
 
-// verifica se foi concluído
 function verificar() {
 
     const completo =
@@ -90,7 +82,6 @@ function verificar() {
     }
 }
 
-// botão talvez fugindo
 function ativarBotaoTalvez() {
 
     const talvez = document.getElementById("talvez");
@@ -131,7 +122,6 @@ function ativarBotaoTalvez() {
     };
 }
 
-// botão SIM
 document.addEventListener("click", function (event) {
 
     if (event.target.id !== "sim") return;
@@ -165,7 +155,5 @@ document.addEventListener("click", function (event) {
     }
 });
 
-// inicia o jogo
 embaralhar();
 renderizar();
-```
