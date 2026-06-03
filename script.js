@@ -2,20 +2,22 @@ const puzzle = document.getElementById("puzzle");
 const mensagem = document.getElementById("mensagem");
 const mensagemFinal = document.getElementById("mensagemFinal");
 
-// ordem correta
+// 6 peças (3x2)
 const ordemCorreta = [0, 1, 2, 3, 4, 5];
 
-// embaralha as peças
-let pecas = [...ordemCorreta].sort(() => Math.random() - 0.5);
+let pecas = [...ordemCorreta];
 
-// impede começar resolvido
-while (pecas.every((v, i) => v === i)) {
+// embaralha
+function embaralhar() {
     pecas.sort(() => Math.random() - 0.5);
+
+    while (pecas.every((v, i) => v === i)) {
+        pecas.sort(() => Math.random() - 0.5);
+    }
 }
 
 let selecionada = null;
 
-// monta o quebra-cabeça
 function renderizar() {
 
     puzzle.innerHTML = "";
@@ -24,32 +26,33 @@ function renderizar() {
 
         const peca = document.createElement("div");
 
-        peca.classList.add("peca");
+        peca.className = "peca";
 
         peca.style.backgroundImage = "url('foto.png')";
         peca.style.backgroundSize = "360px 240px";
 
-        const x = -(valor % 3) * 120;
-        const y = -Math.floor(valor / 3) * 120;
+        const coluna = valor % 3;
+        const linha = Math.floor(valor / 3);
 
-        peca.style.backgroundPosition = `${x}px ${y}px`;
+        peca.style.backgroundPosition =
+            `${-coluna * 120}px ${-linha * 120}px`;
+
+        if (selecionada === index) {
+            peca.style.outline = "4px solid #ff4d6d";
+        }
 
         peca.addEventListener("click", () => trocar(index));
 
         puzzle.appendChild(peca);
-
     });
-
 }
 
-// troca duas peças
 function trocar(indice) {
 
     if (selecionada === null) {
-
         selecionada = indice;
+        renderizar();
         return;
-
     }
 
     [pecas[selecionada], pecas[indice]] =
@@ -60,34 +63,28 @@ function trocar(indice) {
     renderizar();
 
     verificar();
-
 }
 
-// verifica conclusão
 function verificar() {
 
     const completo =
-    pecas.every((valor, indice) =>
-        valor === indice
-    );
+        pecas.every((valor, indice) =>
+            valor === indice
+        );
 
     if (completo) {
 
         mensagem.classList.remove("oculto");
 
-        ativarBotaoTalvez();
-
         puzzle.classList.add("pulsando");
 
+        ativarBotaoTalvez();
     }
-
 }
 
-// botão talvez fugindo
 function ativarBotaoTalvez() {
 
-    const talvez =
-    document.getElementById("talvez");
+    const talvez = document.getElementById("talvez");
 
     if (!talvez) return;
 
@@ -102,74 +99,61 @@ function ativarBotaoTalvez() {
         "😂 Ainda tentando?"
     ];
 
-    talvez.onclick = function() {
-
-        const largura =
-        window.innerWidth - talvez.offsetWidth;
-
-        const altura =
-        window.innerHeight - talvez.offsetHeight;
+    talvez.onclick = () => {
 
         talvez.style.position = "fixed";
 
         talvez.style.left =
-        Math.random() * largura + "px";
+            Math.random() *
+            (window.innerWidth - talvez.offsetWidth) +
+            "px";
 
         talvez.style.top =
-        Math.random() * altura + "px";
+            Math.random() *
+            (window.innerHeight - talvez.offsetHeight) +
+            "px";
 
         talvez.innerText =
-        frases[
-            Math.floor(
-                Math.random() * frases.length
-            )
-        ];
-
+            frases[
+                Math.floor(
+                    Math.random() * frases.length
+                )
+            ];
     };
-
 }
 
-// botão SIM
-document.addEventListener("click", function(event){
+document.addEventListener("click", function (event) {
 
-    if(event.target.id !== "sim") return;
+    if (event.target.id !== "sim") return;
 
-    // esconde os botões
     document.querySelector(".botoes").style.display = "none";
 
-    // mostra mensagem final
     mensagemFinal.classList.remove("oculto");
 
-    // chuva de corações
-    for(let i = 0; i < 100; i++){
+    for (let i = 0; i < 100; i++) {
 
-        const coracao =
-        document.createElement("div");
+        const coracao = document.createElement("div");
 
         coracao.className = "coracao";
 
         coracao.innerHTML = "❤️";
 
         coracao.style.left =
-        Math.random() * 100 + "vw";
+            Math.random() * 100 + "vw";
 
         coracao.style.fontSize =
-        (20 + Math.random() * 30) + "px";
+            (20 + Math.random() * 30) + "px";
 
         coracao.style.animationDelay =
-        Math.random() * 2 + "s";
+            Math.random() * 2 + "s";
 
         document.body.appendChild(coracao);
 
         setTimeout(() => {
-
             coracao.remove();
-
         }, 6000);
-
     }
-
 });
 
-// inicia o jogo
+embaralhar();
 renderizar();
