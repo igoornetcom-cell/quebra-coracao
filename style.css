@@ -61,3 +61,18 @@ cursor:pointer;
 
 margin:10px;
 }
+.peca{
+
+border-radius:8px;
+
+cursor:pointer;
+
+border:1px solid rgba(255,255,255,0.4);
+
+transition:0.2s;
+}
+
+.peca:hover{
+
+transform:scale(1.03);
+}
