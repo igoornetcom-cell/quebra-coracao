@@ -97,9 +97,10 @@ function ativarBotaoTalvez() {
         "❤️ Resposta inválida",
         "😏 Acho que não...",
         "🙈 Tente novamente",
-        "💘 O coração já decidiu",
+        "💘 O coração já decidiu?",
         "❤️ Clique no outro botão",
         "😂 Ainda tentando?"
+        "😂 Seu dedo vai cansar"
     ];
 
     talvez.onclick = function() {
