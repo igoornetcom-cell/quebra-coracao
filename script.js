@@ -4,15 +4,17 @@ const mensagem = document.getElementById("mensagem");
 // ordem correta
 const ordemCorreta = [0, 1, 2, 3, 4, 5];
 
-// embaralha
+// embaralha as peças
 let pecas = [...ordemCorreta].sort(() => Math.random() - 0.5);
 
+// impede começar resolvido
 while (pecas.every((v, i) => v === i)) {
     pecas.sort(() => Math.random() - 0.5);
 }
 
 let selecionada = null;
 
+// monta o quebra-cabeça
 function renderizar() {
 
     puzzle.innerHTML = "";
@@ -39,6 +41,7 @@ function renderizar() {
 
 }
 
+// troca duas peças
 function trocar(indice) {
 
     if (selecionada === null) {
@@ -59,10 +62,12 @@ function trocar(indice) {
 
 }
 
+// verifica conclusão
 function verificar() {
 
-    const completo = pecas.every(
-        (valor, indice) => valor === indice
+    const completo =
+    pecas.every((valor, indice) =>
+        valor === indice
     );
 
     if (completo) {
@@ -75,9 +80,11 @@ function verificar() {
 
 }
 
+// botão talvez fugindo
 function ativarBotaoTalvez() {
 
-    const talvez = document.getElementById("talvez");
+    const talvez =
+    document.getElementById("talvez");
 
     if (!talvez) return;
 
@@ -92,11 +99,7 @@ function ativarBotaoTalvez() {
         "😂 Ainda tentando?"
     ];
 
-    talvez.addEventListener("mouseover", fugir);
-
-    talvez.addEventListener("click", fugir);
-
-    function fugir() {
+    talvez.onclick = function() {
 
         const largura =
         window.innerWidth - talvez.offsetWidth;
@@ -119,8 +122,50 @@ function ativarBotaoTalvez() {
             )
         ];
 
-    }
+    };
 
 }
 
+// botão sim
+document.addEventListener("click", function(event){
+
+    if(event.target.id !== "sim") return;
+
+    for(let i = 0; i < 100; i++){
+
+        const coracao =
+        document.createElement("div");
+
+        coracao.className = "coracao";
+
+        coracao.innerHTML = "❤️";
+
+        coracao.style.left =
+        Math.random() * 100 + "vw";
+
+        coracao.style.fontSize =
+        (20 + Math.random() * 30) + "px";
+
+        coracao.style.animationDelay =
+        Math.random() * 2 + "s";
+
+        document.body.appendChild(coracao);
+
+        setTimeout(() => {
+
+            coracao.remove();
+
+        }, 6000);
+
+    }
+
+    setTimeout(() => {
+
+        alert("❤️ Eu sabia que você diria SIM! ❤️");
+
+    }, 300);
+
+});
+
+// inicia o jogo
 renderizar();
