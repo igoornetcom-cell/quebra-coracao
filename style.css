@@ -16,6 +16,7 @@ h1{
 }
 
 #puzzle{
+
     width:364px;
     margin:30px auto;
 
@@ -28,6 +29,7 @@ h1{
 }
 
 .peca{
+
     width:120px;
     height:120px;
 
@@ -40,17 +42,22 @@ h1{
     box-sizing:border-box;
 
     transition:0.2s;
+
+    background-repeat:no-repeat;
 }
 
 .peca:hover{
+
     transform:scale(1.03);
 }
 
 .oculto{
+
     display:none;
 }
 
 #mensagem{
+
     background:white;
 
     padding:20px;
@@ -68,10 +75,12 @@ h1{
 }
 
 .botoes{
+
     margin-top:20px;
 }
 
 button{
+
     padding:12px 20px;
 
     font-size:18px;
@@ -88,19 +97,20 @@ button{
 }
 
 button:hover{
+
     transform:scale(1.05);
 }
 
 #sim{
+
     background:#ff4d6d;
     color:white;
 }
 
 #talvez{
+
     background:#cccccc;
 }
-
-/* ===== MENSAGEM FINAL ===== */
 
 #mensagemFinal{
 
@@ -136,8 +146,6 @@ button:hover{
     color:#444;
 }
 
-/* ===== CORAÇÃO PULSANDO ===== */
-
 .pulsando{
 
     animation:pulsar 1s infinite;
@@ -156,10 +164,7 @@ button:hover{
     100%{
         transform:scale(1);
     }
-
 }
-
-/* ===== CHUVA DE CORAÇÕES ===== */
 
 .coracao{
 
@@ -183,27 +188,17 @@ button:hover{
     to{
         transform:translateY(120vh);
     }
-
 }
-
-/* ===== ANIMAÇÃO DE ENTRADA ===== */
 
 @keyframes aparecer{
 
     from{
-
         opacity:0;
-
         transform:translateY(20px);
-
     }
 
     to{
-
         opacity:1;
-
         transform:translateY(0);
-
     }
-
 }
