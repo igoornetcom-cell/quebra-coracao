@@ -1,20 +1,18 @@
 const puzzle = document.getElementById("puzzle");
 const mensagem = document.getElementById("mensagem");
 
-// posições corretas
+// ordem correta
 const ordemCorreta = [0, 1, 2, 3, 4, 5];
 
-// embaralha as peças
+// embaralha
 let pecas = [...ordemCorreta].sort(() => Math.random() - 0.5);
 
-// evita começar resolvido
 while (pecas.every((v, i) => v === i)) {
     pecas.sort(() => Math.random() - 0.5);
 }
 
 let selecionada = null;
 
-// cria o quebra-cabeça
 function renderizar() {
 
     puzzle.innerHTML = "";
@@ -25,17 +23,9 @@ function renderizar() {
 
         peca.classList.add("peca");
 
-        // tamanho das peças
-        peca.style.width = "120px";
-        peca.style.height = "120px";
-
-        // imagem
         peca.style.backgroundImage = "url('foto.png')";
-
-        // tamanho total da imagem
         peca.style.backgroundSize = "360px 240px";
 
-        // posição de cada pedaço
         const x = -(valor % 3) * 120;
         const y = -Math.floor(valor / 3) * 120;
 
@@ -49,13 +39,11 @@ function renderizar() {
 
 }
 
-// troca duas peças
 function trocar(indice) {
 
     if (selecionada === null) {
 
         selecionada = indice;
-
         return;
 
     }
@@ -71,7 +59,6 @@ function trocar(indice) {
 
 }
 
-// verifica se terminou
 function verificar() {
 
     const completo = pecas.every(
@@ -82,9 +69,58 @@ function verificar() {
 
         mensagem.classList.remove("oculto");
 
+        ativarBotaoTalvez();
+
     }
 
 }
 
-// inicia
+function ativarBotaoTalvez() {
+
+    const talvez = document.getElementById("talvez");
+
+    if (!talvez) return;
+
+    const frases = [
+        "🤔 Tem certeza?",
+        "🥺 Pensa melhor...",
+        "❤️ Resposta inválida",
+        "😏 Acho que não...",
+        "🙈 Tente novamente",
+        "💘 O coração já decidiu",
+        "❤️ Clique no outro botão",
+        "😂 Ainda tentando?"
+    ];
+
+    talvez.addEventListener("mouseover", fugir);
+
+    talvez.addEventListener("click", fugir);
+
+    function fugir() {
+
+        const largura =
+        window.innerWidth - talvez.offsetWidth;
+
+        const altura =
+        window.innerHeight - talvez.offsetHeight;
+
+        talvez.style.position = "fixed";
+
+        talvez.style.left =
+        Math.random() * largura + "px";
+
+        talvez.style.top =
+        Math.random() * altura + "px";
+
+        talvez.innerText =
+        frases[
+            Math.floor(
+                Math.random() * frases.length
+            )
+        ];
+
+    }
+
+}
+
 renderizar();
